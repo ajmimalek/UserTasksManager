@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserTasksManager.Data;
 using UserTasksManager.Models;
 
 namespace UserTasksManager
@@ -28,7 +30,7 @@ namespace UserTasksManager
         {
             //les services tels que le contexte de base de données doivent être inscrits auprès du conteneur d’injection de dépendances.
             //Le conteneur fournit le service aux contrôleurs.
-            
+            services.AddDbContext<UserTasksContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("AppConnection")));
             services.AddControllers();
         }
 
