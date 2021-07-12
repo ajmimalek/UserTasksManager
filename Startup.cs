@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UserTasksManager.Models;
 
 namespace UserTasksManager
 {
@@ -25,6 +26,9 @@ namespace UserTasksManager
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //les services tels que le contexte de base de données doivent être inscrits auprès du conteneur d’injection de dépendances.
+            //Le conteneur fournit le service aux contrôleurs.
+            
             services.AddControllers();
         }
 
