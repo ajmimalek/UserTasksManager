@@ -5,7 +5,6 @@ namespace UserTasksManager.Migrations
 {
     public partial class InitialMigration : Migration
     {
-        //UP : Database Creation Instructions
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -36,7 +35,6 @@ namespace UserTasksManager.Migrations
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     role = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -45,7 +43,7 @@ namespace UserTasksManager.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ProfileTask",
+                name: "TaskUser",
                 columns: table => new
                 {
                     profilesId = table.Column<int>(type: "int", nullable: false),
@@ -53,15 +51,15 @@ namespace UserTasksManager.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProfileTask", x => new { x.profilesId, x.tasksId });
+                    table.PrimaryKey("PK_TaskUser", x => new { x.profilesId, x.tasksId });
                     table.ForeignKey(
-                        name: "FK_ProfileTask_Tasks_tasksId",
+                        name: "FK_TaskUser_Tasks_tasksId",
                         column: x => x.tasksId,
                         principalTable: "Tasks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ProfileTask_Users_profilesId",
+                        name: "FK_TaskUser_Users_profilesId",
                         column: x => x.profilesId,
                         principalTable: "Users",
                         principalColumn: "Id",
@@ -69,15 +67,15 @@ namespace UserTasksManager.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProfileTask_tasksId",
-                table: "ProfileTask",
+                name: "IX_TaskUser_tasksId",
+                table: "TaskUser",
                 column: "tasksId");
         }
-        //Down : DataBase deleting Instructions
+
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ProfileTask");
+                name: "TaskUser");
 
             migrationBuilder.DropTable(
                 name: "Tasks");

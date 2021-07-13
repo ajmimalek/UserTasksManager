@@ -19,7 +19,7 @@ namespace UserTasksManager.Migrations
                 .HasAnnotation("ProductVersion", "5.0.7")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("ProfileTask", b =>
+            modelBuilder.Entity("TaskUser", b =>
                 {
                     b.Property<int>("profilesId")
                         .HasColumnType("int");
@@ -31,7 +31,7 @@ namespace UserTasksManager.Migrations
 
                     b.HasIndex("tasksId");
 
-                    b.ToTable("ProfileTask");
+                    b.ToTable("TaskUser");
                 });
 
             modelBuilder.Entity("UserTasksManager.Models.Task", b =>
@@ -75,10 +75,6 @@ namespace UserTasksManager.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -91,26 +87,17 @@ namespace UserTasksManager.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
-                });
-
-            modelBuilder.Entity("UserTasksManager.Models.Profile", b =>
-                {
-                    b.HasBaseType("UserTasksManager.Models.User");
-
                     b.Property<int>("role")
                         .HasColumnType("int");
 
-                    b.HasDiscriminator().HasValue("Profile");
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("ProfileTask", b =>
+            modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.HasOne("UserTasksManager.Models.Profile", null)
+                    b.HasOne("UserTasksManager.Models.User", null)
                         .WithMany()
                         .HasForeignKey("profilesId")
                         .OnDelete(DeleteBehavior.Cascade)

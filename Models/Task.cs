@@ -52,6 +52,6 @@ namespace UserTasksManager.Models
         public float Estimate { get; set; }
         public State Status { get; set; }
         //Profile
-        public ICollection<Profile> profiles { get; set; }
+        public ICollection<User> profiles { get; set; }
     }
 }
