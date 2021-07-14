@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace UserTasksManager.Models
 {
@@ -14,7 +12,7 @@ namespace UserTasksManager.Models
     }
     public class User
     {
-        [Key] // optional !
+        [Key]
         public int Id { get; set; }
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
@@ -32,6 +30,8 @@ namespace UserTasksManager.Models
         // data annotation to validate email in C#
         [EmailAddress(ErrorMessage = "Enter a valid Email address")]
         public string Email { get; set; }
+        [DataType(DataType.DateTime)]
+        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         private DateTime dateCreated;
 
         public DateTime DateCreated
@@ -43,5 +43,10 @@ namespace UserTasksManager.Models
         public Role role { get; set; }
         //Tasks
         public ICollection<Task> tasks { get; set; }
+        //Constructor
+        public User()
+        {
+            DateCreated = DateTime.Now;
+        }
     }
 }

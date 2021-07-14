@@ -10,7 +10,7 @@ using UserTasksManager.Data;
 namespace UserTasksManager.Migrations
 {
     [DbContext(typeof(UserTasksContext))]
-    [Migration("20210713130058_InitialMigration")]
+    [Migration("20210714110737_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,15 +23,15 @@ namespace UserTasksManager.Migrations
 
             modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.Property<int>("profilesId")
-                        .HasColumnType("int");
-
                     b.Property<int>("tasksId")
                         .HasColumnType("int");
 
-                    b.HasKey("profilesId", "tasksId");
+                    b.Property<int>("usersId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("tasksId");
+                    b.HasKey("tasksId", "usersId");
+
+                    b.HasIndex("usersId");
 
                     b.ToTable("TaskUser");
                 });
@@ -46,8 +46,9 @@ namespace UserTasksManager.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("EndDate")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<DateTime?>("EndDate")
+                        .IsRequired()
+                        .HasColumnType("datetime2");
 
                     b.Property<float>("Estimate")
                         .HasColumnType("real");
@@ -65,6 +66,28 @@ namespace UserTasksManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Tasks");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Description = "Create a project",
+                            EndDate = new DateTime(2021, 7, 15, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(1252),
+                            Estimate = 5.12f,
+                            StartDate = new DateTime(2021, 7, 14, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(152),
+                            Status = 0,
+                            Title = "Creating a new Project"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Description = "Adding Classes to Project",
+                            EndDate = new DateTime(2021, 7, 17, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(2546),
+                            Estimate = 3.2f,
+                            StartDate = new DateTime(2021, 7, 14, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(2521),
+                            Status = 0,
+                            Title = "Class Modeling"
+                        });
                 });
 
             modelBuilder.Entity("UserTasksManager.Models.User", b =>
@@ -95,19 +118,39 @@ namespace UserTasksManager.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DateCreated = new DateTime(2021, 7, 14, 12, 7, 37, 243, DateTimeKind.Local).AddTicks(7192),
+                            Email = "malek.ajmi@se.linedata.com",
+                            Password = "malek123",
+                            UserName = "ajmimalek",
+                            role = 0
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DateCreated = new DateTime(2021, 7, 14, 12, 7, 37, 243, DateTimeKind.Local).AddTicks(7880),
+                            Email = "adel.adel@se.linedata.com",
+                            Password = "adel336",
+                            UserName = "adeladel",
+                            role = 1
+                        });
                 });
 
             modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.HasOne("UserTasksManager.Models.User", null)
-                        .WithMany()
-                        .HasForeignKey("profilesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("UserTasksManager.Models.Task", null)
                         .WithMany()
                         .HasForeignKey("tasksId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("UserTasksManager.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("usersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
