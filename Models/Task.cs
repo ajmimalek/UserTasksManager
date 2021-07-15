@@ -16,7 +16,7 @@ namespace UserTasksManager.Models
             Done
         }
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "Your task must hava a title")]
         public string Title { get; set; }
         [DataType(DataType.MultilineText)]

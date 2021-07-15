@@ -13,7 +13,7 @@ namespace UserTasksManager.Models
     public class User
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required(ErrorMessage = "UserName is required")]
         public string UserName { get; set; }
         [Required(ErrorMessage = "Password is required")]

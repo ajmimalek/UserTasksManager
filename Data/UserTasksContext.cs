@@ -18,7 +18,7 @@ namespace UserTasksManager.Data
                 .HasData(
                 new User()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     UserName = "ajmimalek",
                     Password = "malek123",
                     ConfirmPassword = "malek123",
@@ -28,7 +28,7 @@ namespace UserTasksManager.Data
                 },
                 new User()
                 {
-                    Id = 2,
+                    Id = Guid.NewGuid(),
                     UserName = "adeladel",
                     Password = "adel336",
                     ConfirmPassword = "adel336",
@@ -39,7 +39,7 @@ namespace UserTasksManager.Data
             modelBuilder.Entity<Task>().HasData(
                 new Task()
                 {
-                    Id = 1,
+                    Id = Guid.NewGuid(),
                     Title = "Creating a new Project",
                     Description = "Create a project",
                     EndDate = DateTime.Now.AddDays(1),
@@ -48,7 +48,7 @@ namespace UserTasksManager.Data
                 },
                 new Task()
                 {
-                    Id = 2,
+                    Id = Guid.NewGuid(),
                     Title = "Class Modeling",
                     Description = "Adding Classes to Project",
                     EndDate = DateTime.Now.AddDays(3),
