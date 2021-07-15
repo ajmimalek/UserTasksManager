@@ -32,6 +32,7 @@ namespace UserTasksManager
             //Le conteneur fournit le service aux contrôleurs.
             services.AddDbContext<UserTasksContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("AppConnection")));
             services.AddControllers();
+            services.AddScoped<IUserTasksRepo, UserTasksRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

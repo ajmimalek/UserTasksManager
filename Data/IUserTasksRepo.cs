@@ -7,6 +7,7 @@ namespace UserTasksManager.Data
 {
     public interface IUserTasksRepo
     {
+        bool SaveChanges();
         //GET
         IEnumerable<User> GetUsers();
         IEnumerable<Task> GetTasks();
@@ -14,7 +15,6 @@ namespace UserTasksManager.Data
         IEnumerable<User> GetUsersByRole(Role role);
         Task GetTaskByTitle(string title);
         IEnumerable<Task> GetTasksByStatus(State state);
-        IEnumerable<Task> GetTasksBeforeEndDate(DateTime endDate);
         //POST
         User AddUser(User user);
         Task AddTask(Task task);
