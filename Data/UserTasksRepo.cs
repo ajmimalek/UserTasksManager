@@ -7,6 +7,7 @@ namespace UserTasksManager.Data
 {
     public class UserTasksRepo : IUserTasksRepo
     {
+        //Injection de dépandances
         private readonly UserTasksContext _context;
 
         //Constructor
@@ -26,21 +27,39 @@ namespace UserTasksManager.Data
             return task;
         }
 
-        public IEnumerable<Models.Task> AddTasksToUser(User user, IEnumerable<Models.Task> tasks)
+        public User AddTasksToUser(User user, IEnumerable<Models.Task> tasks)
         {
             if (user == null)
             {
                 //A nameof expression produces the name of a variable, type, or member as the string constant
                 throw new ArgumentNullException(nameof(user));
             }
-            _context.Tasks.Where(task => task.users.Contains(user));
-            //want to add task : didn't find how to ??
+            //Verify if the user exist in DB or not
+            if (GetUsers().Contains<User>(user))
+            {
+                //Assigning tasks to User
+                user.tasks = (ICollection<Task>)tasks;
+                return user;
+            }
             return null;
         }
 
-        public IEnumerable<Models.Task> AddTasksToUser(string username, IEnumerable<Models.Task> tasks)
+        public User AddTasksToUser(Guid id, IEnumerable<Models.Task> tasks)
         {
-            throw new NotImplementedException();
+            User user = GetUserById(id);
+            if (user == null)
+            {
+                //A nameof expression produces the name of a variable, type, or member as the string constant
+                throw new ArgumentNullException(nameof(user));
+            }
+            //Verify if the user exist in DB or not
+            if (GetUsers().Contains<User>(user))
+            {
+                //Assigning tasks to User
+                user.tasks = (ICollection<Task>)tasks;
+                return user;
+            }
+            return null;
         }
 
         public User AddUser(User user)
@@ -72,6 +91,12 @@ namespace UserTasksManager.Data
         {
             //ToList & Where : LINQ Operations
             return _context.Tasks.Where(task => task.Status.Equals(state)).ToList();
+        }
+
+        public User GetUserById(Guid id)
+        {
+            //ToList & Where : LINQ Operations
+            return _context.Users.SingleOrDefault(user => user.Id.Equals(id));
         }
 
         public IEnumerable<User> GetUsers()

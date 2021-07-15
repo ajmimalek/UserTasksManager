@@ -10,7 +10,7 @@ using UserTasksManager.Data;
 namespace UserTasksManager.Migrations
 {
     [DbContext(typeof(UserTasksContext))]
-    [Migration("20210714110737_InitialMigration")]
+    [Migration("20210715140342_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,11 +23,11 @@ namespace UserTasksManager.Migrations
 
             modelBuilder.Entity("TaskUser", b =>
                 {
-                    b.Property<int>("tasksId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("tasksId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<int>("usersId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("usersId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("tasksId", "usersId");
 
@@ -38,10 +38,9 @@ namespace UserTasksManager.Migrations
 
             modelBuilder.Entity("UserTasksManager.Models.Task", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -70,21 +69,21 @@ namespace UserTasksManager.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new Guid("6badfd7c-e3ac-40e0-9db9-49e64b4fdcff"),
                             Description = "Create a project",
-                            EndDate = new DateTime(2021, 7, 15, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(1252),
+                            EndDate = new DateTime(2021, 7, 16, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(1678),
                             Estimate = 5.12f,
-                            StartDate = new DateTime(2021, 7, 14, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(152),
+                            StartDate = new DateTime(2021, 7, 15, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(381),
                             Status = 0,
                             Title = "Creating a new Project"
                         },
                         new
                         {
-                            Id = 2,
+                            Id = new Guid("b7fea0d2-44c2-4961-9061-a77b8d60cef8"),
                             Description = "Adding Classes to Project",
-                            EndDate = new DateTime(2021, 7, 17, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(2546),
+                            EndDate = new DateTime(2021, 7, 18, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(3167),
                             Estimate = 3.2f,
-                            StartDate = new DateTime(2021, 7, 14, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(2521),
+                            StartDate = new DateTime(2021, 7, 15, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(3131),
                             Status = 0,
                             Title = "Class Modeling"
                         });
@@ -92,10 +91,9 @@ namespace UserTasksManager.Migrations
 
             modelBuilder.Entity("UserTasksManager.Models.User", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
@@ -122,8 +120,8 @@ namespace UserTasksManager.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
-                            DateCreated = new DateTime(2021, 7, 14, 12, 7, 37, 243, DateTimeKind.Local).AddTicks(7192),
+                            Id = new Guid("f574d1a5-c726-4697-be9a-6af7311ffbf1"),
+                            DateCreated = new DateTime(2021, 7, 15, 15, 3, 42, 125, DateTimeKind.Local).AddTicks(6832),
                             Email = "malek.ajmi@se.linedata.com",
                             Password = "malek123",
                             UserName = "ajmimalek",
@@ -131,8 +129,8 @@ namespace UserTasksManager.Migrations
                         },
                         new
                         {
-                            Id = 2,
-                            DateCreated = new DateTime(2021, 7, 14, 12, 7, 37, 243, DateTimeKind.Local).AddTicks(7880),
+                            Id = new Guid("4728f314-eb27-4fe5-bc19-03a1dd7a07f0"),
+                            DateCreated = new DateTime(2021, 7, 15, 15, 3, 42, 125, DateTimeKind.Local).AddTicks(7659),
                             Email = "adel.adel@se.linedata.com",
                             Password = "adel336",
                             UserName = "adeladel",

@@ -11,8 +11,7 @@ namespace UserTasksManager.Migrations
                 name: "Tasks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StartDate = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -29,8 +28,7 @@ namespace UserTasksManager.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -46,8 +44,8 @@ namespace UserTasksManager.Migrations
                 name: "TaskUser",
                 columns: table => new
                 {
-                    tasksId = table.Column<int>(type: "int", nullable: false),
-                    usersId = table.Column<int>(type: "int", nullable: false)
+                    tasksId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    usersId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,8 +69,8 @@ namespace UserTasksManager.Migrations
                 columns: new[] { "Id", "Description", "EndDate", "Estimate", "StartDate", "Status", "Title" },
                 values: new object[,]
                 {
-                    { 1, "Create a project", new DateTime(2021, 7, 15, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(1252), 5.12f, new DateTime(2021, 7, 14, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(152), 0, "Creating a new Project" },
-                    { 2, "Adding Classes to Project", new DateTime(2021, 7, 17, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(2546), 3.2f, new DateTime(2021, 7, 14, 12, 7, 37, 245, DateTimeKind.Local).AddTicks(2521), 0, "Class Modeling" }
+                    { new Guid("6badfd7c-e3ac-40e0-9db9-49e64b4fdcff"), "Create a project", new DateTime(2021, 7, 16, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(1678), 5.12f, new DateTime(2021, 7, 15, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(381), 0, "Creating a new Project" },
+                    { new Guid("b7fea0d2-44c2-4961-9061-a77b8d60cef8"), "Adding Classes to Project", new DateTime(2021, 7, 18, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(3167), 3.2f, new DateTime(2021, 7, 15, 15, 3, 42, 127, DateTimeKind.Local).AddTicks(3131), 0, "Class Modeling" }
                 });
 
             migrationBuilder.InsertData(
@@ -80,8 +78,8 @@ namespace UserTasksManager.Migrations
                 columns: new[] { "Id", "DateCreated", "Email", "Password", "UserName", "role" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2021, 7, 14, 12, 7, 37, 243, DateTimeKind.Local).AddTicks(7192), "malek.ajmi@se.linedata.com", "malek123", "ajmimalek", 0 },
-                    { 2, new DateTime(2021, 7, 14, 12, 7, 37, 243, DateTimeKind.Local).AddTicks(7880), "adel.adel@se.linedata.com", "adel336", "adeladel", 1 }
+                    { new Guid("f574d1a5-c726-4697-be9a-6af7311ffbf1"), new DateTime(2021, 7, 15, 15, 3, 42, 125, DateTimeKind.Local).AddTicks(6832), "malek.ajmi@se.linedata.com", "malek123", "ajmimalek", 0 },
+                    { new Guid("4728f314-eb27-4fe5-bc19-03a1dd7a07f0"), new DateTime(2021, 7, 15, 15, 3, 42, 125, DateTimeKind.Local).AddTicks(7659), "adel.adel@se.linedata.com", "adel336", "adeladel", 1 }
                 });
 
             migrationBuilder.CreateIndex(

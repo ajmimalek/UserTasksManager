@@ -10,6 +10,7 @@ namespace UserTasksManager.Data
         bool SaveChanges();
         //GET
         IEnumerable<User> GetUsers();
+        User GetUserById(Guid id);
         IEnumerable<Task> GetTasks();
         IEnumerable<Task> GetUserTasks(User user);
         IEnumerable<User> GetUsersByRole(Role role);
@@ -18,8 +19,8 @@ namespace UserTasksManager.Data
         //POST
         User AddUser(User user);
         Task AddTask(Task task);
-        IEnumerable<Task> AddTasksToUser(User user, IEnumerable<Task> tasks);
-        IEnumerable<Task> AddTasksToUser(string username, IEnumerable<Task> tasks);
+        User AddTasksToUser(User user, IEnumerable<Task> tasks);
+        User AddTasksToUser(Guid id, IEnumerable<Task> tasks);
         //PUT
         //PATCH
     }
