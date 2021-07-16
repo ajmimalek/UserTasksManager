@@ -19,9 +19,9 @@ namespace UserTasksManager.Data
         //POST
         User AddUser(User user);
         Task AddTask(Task task);
+        //PATCH
         User AddTasksToUser(User user, IEnumerable<Task> tasks);
         User AddTasksToUser(Guid id, IEnumerable<Task> tasks);
-        //PUT
-        //PATCH
+        
     }
 }

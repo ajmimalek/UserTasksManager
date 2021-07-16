@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using UserTasksManager.Data;
+using UserTasksManager.Models;
 using static UserTasksManager.Models.Task;
 
 namespace UserTasksManager.Controllers
@@ -29,8 +29,8 @@ namespace UserTasksManager.Controllers
             return Ok(tasks);
         }
 
-        //GET api/tasks/{title}
-        [HttpGet("{title}")]
+        //GET api/tasks/title/{title}
+        [HttpGet("title/{title}",Name = "GetTaskByTitle")]
         public ActionResult<Task> GetTaskByTitle(string title)
         {
             var task = _repository.GetTaskByTitle(title);
@@ -41,8 +41,8 @@ namespace UserTasksManager.Controllers
             return NotFound();
         }
 
-        //GET api/tasks/{state}
-        [HttpGet("{state}")]
+        //GET api/tasks/status/{state}
+        [HttpGet("status/{state}")]
         public ActionResult<IEnumerable<Task>> GetTasksByStatus(State state)
         {
             var tasks = _repository.GetTasksByStatus(state);
@@ -51,6 +51,16 @@ namespace UserTasksManager.Controllers
                 return Ok(tasks);
             }
             return NotFound();
+        }
+
+        //POST api/tasks
+        [HttpPost]
+        public ActionResult<Task> AddTask(Task task)
+        {
+            _repository.AddTask(task);
+            //SaveChanges : insert this new task into DB
+            _repository.SaveChanges();
+            return CreatedAtRoute(nameof(GetTaskByTitle), new { Title = task.Title }, task);
         }
     }
 }

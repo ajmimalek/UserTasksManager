@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using UserTasksManager.Data;
@@ -32,7 +33,7 @@ namespace UserTasksManager.Controllers
         }
 
         //GET api/users/{id}
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetUserById")]
         public ActionResult<User> GetUserById(Guid id)
         {
             var user = _repository.GetUserById(id);
@@ -65,6 +66,63 @@ namespace UserTasksManager.Controllers
                 return Ok(tasks);
             }
             return NotFound();
+        }
+
+        //POST api/users
+        [HttpPost]
+        public ActionResult<User> AddUser(User user)
+        {
+            _repository.AddUser(user);
+            //SaveChanges : insert this new user into DB
+            _repository.SaveChanges();
+            return CreatedAtRoute(nameof(GetUserById), new { Id = user.Id }, user);
+        }
+
+        //PATCH api/users/tasks
+        [HttpPatch("tasks")]
+        public ActionResult<User> AddTasksToUser(User user, IEnumerable<Task> tasks, JsonPatchDocument<User> patchDocument)
+        {
+            //Check if the user is existant
+            if (user == null)
+            {
+                return NotFound();
+            }
+            //Applying the patch
+            patchDocument.ApplyTo(user, ModelState);
+
+            if (!TryValidateModel(user))
+            {
+                return ValidationProblem(ModelState);
+            }
+            //Assigning task
+            _repository.AddTasksToUser(user, tasks);
+            _repository.SaveChanges();
+
+            return NoContent();
+        }
+
+        //PATCH api/users/{id}/tasks
+        [HttpPatch("{id}/tasks")]
+        public ActionResult<User> AddTasksToUser(Guid id, IEnumerable<Task> tasks, JsonPatchDocument<User> patchDocument)
+        {
+            var user = _repository.GetUserById(id);
+            //Check if the user is existant
+            if (user == null)
+            {
+                return NotFound();
+            }
+            //Applying the patch
+            patchDocument.ApplyTo(user, ModelState);
+
+            if (!TryValidateModel(user))
+            {
+                return ValidationProblem(ModelState);
+            }
+            //Assigning task
+            _repository.AddTasksToUser(user, tasks);
+            _repository.SaveChanges();
+
+            return NoContent();
         }
     }
 }

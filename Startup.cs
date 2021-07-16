@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using UserTasksManager.Data;
 using Microsoft.OpenApi.Models;
-
+using Newtonsoft.Json.Serialization;
 
 namespace UserTasksManager
 {
@@ -25,7 +25,9 @@ namespace UserTasksManager
             //les services tels que le contexte de base de données doivent être inscrits auprès du conteneur d’injection de dépendances.
             //Le conteneur fournit le service aux contrôleurs.
             services.AddDbContext<UserTasksContext>(opt => opt.UseSqlServer(Configuration.GetConnectionString("AppConnection")));
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
             services.AddScoped<IUserTasksRepo, UserTasksRepo>();
             services.AddSwaggerGen(c => {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "User'Tasks Manager API", Version = "v1" });
@@ -55,6 +57,7 @@ namespace UserTasksManager
             }
 
             //DB will be created when launching the application
+            context.Database.EnsureDeleted();
             context.Database.EnsureCreated();
 
             app.UseHttpsRedirection();
